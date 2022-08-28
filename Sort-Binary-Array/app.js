@@ -1,9 +1,5 @@
 /*
-İkili bir dizi verildiğinde, yerinde sıralayın, doğrusal zaman ve sabit uzayda. 
-Çıktı, tüm sıfırları ve ardından gelenleri içermelidir.
-
-Given a binary array, in-place sort it in linear time and constant space. 
-The output should contain all zeroes, followed by all ones.
+-Verilen ikili diziyi doğrusal zaman ve sabit uzayda yerinde sıralayın
 
 Input : [1, 0, 1, 0, 1, 0, 0, 1]
 Output: [0, 0, 0, 0, 1, 1, 1, 1]
