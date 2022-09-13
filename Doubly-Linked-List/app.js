@@ -92,4 +92,33 @@ class DoublyLinkedList {
             this.size--;
         }
     }
+
+    printList(){
+        let current = this.head;
+        let string = "List : ";
+        while (current){
+            string += current.data + " ";
+            current = current.next; 
+        }
+
+        console.log(string);
+    }
 }
+
+const dbList = new DoublyLinkedList();
+
+dbList.insertAtFront(1);
+dbList.insertAtFront(2);
+dbList.insertAtFront(3);
+
+dbList.printList();
+
+dbList.insertAtTail(4);
+
+dbList.printList();
+
+dbList.deleteAtFront();
+dbList.printList();
+
+dbList.deleteAtTail();
+dbList.printList();
