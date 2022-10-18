@@ -1,5 +1,5 @@
-//Sıralanmamış bir tamsayı dizisi verildiğinde, içinde verilen toplamı olan bir çift bulun
-//Given an unsorted integer array, find a pair with the given sum in it
+//Sıralanmamış bir tamsayı dizisi ve tamsayı verilir.
+//Bu dizi içerisinde verilen tamsayının toplamını oluşturan ikilileri bulun.
 /* 
 Input:
  
@@ -37,6 +37,7 @@ function printData(array, target, algoType){
     console.log("Numbers : " + array.toString());
     console.log("Target : " + target);
 }
+
 function bruteForce(array, target){
     const sumArray = [];
     printData(array, target, "Brute Force");
