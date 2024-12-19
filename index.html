@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine-Halfmoon - Transition from Bootstrap to Alpine.js</title>
+    <link rel="stylesheet" href="css/cores/halfmoon.cores.css">
+    <link rel="stylesheet" href="css/halfmoon.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.7/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div x-data="{ isSidebarOpen: true }" class="min-vh-100 d-flex flex-column">
+        <nav class="navbar border-bottom p-3">
+            <a href="index.html" class="navbar-brand d-flex align-items-center gap-2">
+                <img src="image/alpine.svg" alt="Alpine.js" style="width: 30px; height: 30px;">
+                <img src="image/halfmoon.svg" alt="Halfmoon.css" style="width: 30px; height: 30px;">
+            </a>
+            <div>
+                <button class="btn btn-secondary me-2" @click="isSidebarOpen = !isSidebarOpen">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="btn btn-secondary" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="container-fluid flex-grow-1 p-4 d-flex">
+            <div class="row flex-grow-1 w-100">
+                <div class="col-2" x-show="isSidebarOpen">
+                    <nav class="border h-100 rounded p-3">
+                        <ul class="navbar-nav flex-column">
+                            <li>
+                                <h6 class="sidebar-header fw-medium fs-5">Getting started</h6>
+                            </li>
+                            <hr />
+                            <li class="nav-item">
+                                <a class="nav-link active" href="./index.html" aria-current="page">Installation</a>
+                            </li>
+                            <li class="mt-3">
+                                <h6 class="sidebar-header fw-medium fs-5">Components</h6>
+                            </li>
+
+                            <hr />
+                            <li class="nav-item">
+                                <a class="nav-link" href="./ui/accordion.html">Accordion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Spreadsheet</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Maps</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Messenger</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-10" x-bind:class="{ 'col-10': isSidebarOpen, 'col-12': !isSidebarOpen }">
+                    <div class="container-fluid rounded border h-100">
+                        <div class="row">
+                            <div class="col-12 my-auto">
+                                <h1 class="text-center mt-4">Welcome to Alpine-Halfmoon</h1>
+                                <p class="text-center fs-5">This site transitions from Bootstrap to Alpine.js using
+                                    Halfmoon.css for a modern UI experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.querySelector('html');
+            if (html.getAttribute('data-bs-theme') === 'light') {
+                html.setAttribute('data-bs-theme', 'dark');
+            } else {
+                html.setAttribute('data-bs-theme', 'light');
+            }
+        }
+
+    </script>
+</body>
+
+</html>
