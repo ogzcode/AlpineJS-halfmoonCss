@@ -17,142 +17,255 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/html.min.js"></script>
 
+    <style>
+        body {
+
+            --topbar-bg: var(--bs-lightgray-100);
+            --topbar-color: var(--bs-darkgray-900);
+            --topbar-border-color: var(--bs-lightgray-900);
+            --sidebar-bg: var(--bs-lightgray-100);
+        }
+
+        [data-bs-theme="dark"] body {
+            --topbar-bg: var(--bs-darkgray-900);
+            --topbar-color: var(--bs-lightgray-100);
+            --topbar-border-color: var(--bs-darkgray-100);
+            --sidebar-bg: var(--bs-darkgray-900);
+        }
+
+        .topbar {
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background-color: var(--topbar-bg);
+            border-bottom: 1px solid var(--topbar-border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+        }
+
+        .topbar .topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            height: 48px;
+        }
+
+        .brand-logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+        }
+
+        .main-content {
+            height: calc(100vh - 64px);
+            overflow: hidden;
+            margin-top: 64px;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            bottom: 0;
+            width: 25%;
+            background-color: var(--sidebar-bg);
+            overflow-y: hidden
+        }
+
+        [data-bs-theme="dark"] .sidebar-menu {
+            background-color: var(--bs-darkgray-900);
+        }
+
+        .sidebar-menu ul {
+            list-style-type: none;
+            height: 100%;
+            padding: var(--bs-spacer-4);
+            overflow-y: auto;
+            border-right: 1px solid var(--bs-lightgray-900);
+        }
+
+        .menu-item {
+            margin-bottom: var(--bs-spacer-4);
+        }
+
+        .item-header {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+        }
+
+        .item-link {
+            display: block;
+            padding: var(--bs-spacer-2);
+            color: var(--topbar-color);
+            text-decoration: none;
+            padding-left: var(--bs-spacer-3);
+            border-radius: var(--bs-border-radius);
+        }
+
+        .item-link:hover {
+            background-color: var(--bs-lightgray-200);
+            color: var(--bs-darkgray-900);
+        }
+
+        .item-link.active {
+            background-color: var(--bs-cyan-100);
+            color: var(--bs-cyan-900);
+        }
+
+        .content {
+            padding: var(--bs-spacer-4) calc(var(--bs-spacer-5) * 2);
+            overflow-y: auto;
+            height: 100%;
+            width: 75%;
+            margin-left: 25%;
+        }
+
+        .content-header {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+            border-bottom: 1px solid var(--topbar-border-color);
+            padding-bottom: var(--bs-spacer-3);
+        }
+
+        .content-text {
+            font-size: 1rem;
+            color: var(--topbar-color);
+            margin-top: var(--bs-spacer-5);
+        }
+    </style>
 </head>
 
 <body>
-    <div x-data="{ isSidebarOpen: true }" class="min-vh-100 d-flex flex-column">
-        <nav class="navbar border-bottom p-3">
-            <a href="index.html" class="navbar-brand d-flex align-items-center gap-2">
-                <img src="../image/alpine.svg" alt="Alpine.js" style="width: 30px; height: 30px;">
-                <img src="../image/halfmoon.svg" alt="Halfmoon.css" style="width: 30px; height: 30px;">
+    <div class="topbar">
+        <div class="topbar-brand">
+            <img src="../image/alpine.svg" alt="Alpine.js" style="width: 30px; height: 30px; margin-right: 10px;">
+            <img src="../image/halfmoon.svg" alt="Halfmoon.css" style="width: 30px; height: 30px;">
+            <span class="brand-logo">Alpine-Halfmoon</span>
+        </div>
+        <div>
+            <a class="btn btn-secondary btn-lg me-2" href="https://github.com/ogzcode">
+                <i class="fa-brands fa-github"></i>
             </a>
-            <div>
-                <button class="btn btn-secondary me-2" @click="isSidebarOpen = !isSidebarOpen">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <button class="btn btn-secondary" onclick="toggleTheme()">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-        </nav>
+            <a class="btn btn-secondary btn-lg me-2" href="https://x.com/ogzCode">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </div>
 
-        <div class="container-fluid flex-grow-1 p-4 d-flex">
-            <div class="row flex-grow-1 w-100">
-                <div class="col-2" x-show="isSidebarOpen">
-                    <nav class="border h-100 rounded p-3">
-                        <ul class="navbar-nav flex-column">
+    <div class="main-content">
+        <div class="sidebar-menu">
+            <ul>
+                <li class="menu-item">
+                    <h6 class="item-header">
+                        <i class="fa-solid fa-flag-checkered me-2"></i>
+                        Introduction
+                    </h6>
+
+                    <a href="../index.html" class="item-link">Getting Started</a>
+                </li>
+
+                <li class="menu-item">
+                    <h6 class="item-header">
+                        <i class="fa-solid fa-shapes me-2"></i>
+                        Components
+                    </h6>
+
+                    <a href="./accordion.html" class="item-link">Accordion</a>
+                    <a href="./collapsable-menu.html" class="item-link">Collapsable Menu</a>
+                    <a href="./dropdown.html" class="item-link active">Dropdown</a>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1 class="content-header">Dropdown</h1>
+            <p class="content-text">
+                Dropdowns are toggleable, contextual overlays for displaying lists of links and more. They’re made interactive with the included dropdown JavaScript plugin.
+            </p>
+
+            <!-- Components Here -->
+            <div class="card">
+                <div class="card-body py-5 d-flex justify-content-center">
+                    <div class="dropdown" x-data="{ open: false }">
+                        <button class="btn btn-primary dropdown-toggle" @click="open = !open" @click.away="open = false"
+                            :aria-expanded="open">
+                            Dropdown Menu
+                        </button>
+
+
+                        <ul class="dropdown-menu" x-show="open" :class="{ 'show': open, 'hide': !open }">
                             <li>
-                                <h6 class="sidebar-header fw-medium fs-5">Getting started</h6>
+                                <h6 class="dropdown-header">Header</h6>
                             </li>
-                            <hr />
-                            <li class="nav-item">
-                                <a class="nav-link active" href="../index.html" aria-current="page">Installation</a>
+                            <li><a href="#" class="dropdown-item">Dropdown link 1</a></li>
+                            <li><a href="#" class="dropdown-item">Dropdown link 2</a></li>
+                            <li><a href="#" class="dropdown-item">Dropdown link 3</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
                             </li>
-                            <li class="mt-3">
-                                <h6 class="sidebar-header fw-medium fs-5">Components</h6>
-                            </li>
-
-                            <hr />
-                            <li class="nav-item">
-                                <a class="nav-link" href="./accordion.html">Accordion</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./dropdown.html" href="#">Dropdown</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Maps</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Messenger</a>
-                            </li>
+                            <li><a class="dropdown-item disabled">Dropdown link 4</a></li>
                         </ul>
-                    </nav>
-                </div>
-                <div class="col-10" x-bind:class="{ 'col-10': isSidebarOpen, 'col-12': !isSidebarOpen }">
-                    <div class="container-fluid rounded border h-100">
-                        <div class="row">
-                            <div class="col-12 p-5">
-
-                                <h1 class="text-start">Dropdown</h1>
-                                <p class="text-start fs-5">
-                                    Dropdowns are toggleable, contextual overlays for displaying lists of links and
-                                    more.
-                                    They’re made interactive with the included dropdown JavaScript plugin.
-                                </p>
-
-                                <div class="card">
-                                    <div class="card-body py-5 d-flex justify-content-center">
-                                        <!-- Components Here -->
-                                        <div class="dropdown" x-data="{ open: false }">
-                                            <button class="btn btn-primary dropdown-toggle" @click="open = !open"
-                                                @click.away="open = false" :aria-expanded="open">
-                                                Dropdown Menu
-                                            </button>
-
-
-                                            <ul class="dropdown-menu" x-show="open"
-                                                :class="{ 'show': open, 'hide': !open }">
-                                                <li>
-                                                    <h6 class="dropdown-header">Header</h6>
-                                                </li>
-                                                <li><a href="#" class="dropdown-item">Dropdown link 1</a></li>
-                                                <li><a href="#" class="dropdown-item">Dropdown link 2</a></li>
-                                                <li><a href="#" class="dropdown-item">Dropdown link 3</a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><a class="dropdown-item disabled">Dropdown link 4</a></li>
-                                            </ul>
-                                        </div>
-                                        <!-- Components Here -->
-                                    </div>
-                                </div>
-
-                                <div class="card mt-5">
-                                    <div class="card-header d-flex justify-content-between mb-0">
-                                        <span class="d-flex align-items-center bg-light px-2 rounded"
-                                            style="font-size: 10px">HTML</span>
-                                        <button class="btn btn-sm btn-secondary px-3"
-                                            onclick="copyToClipboard('dropdown-code')">
-                                            <i class="fas fa-copy pe-1"></i>
-                                            Copy
-                                        </button>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <pre id="dropdown-code" class="m-0 p-0">
-                                            <code class="language-html" style="margin: 0px; padding: 0px;">
-        &lt;div class="dropdown" x-data="{ open: false }"&gt;
-            &lt;button class="btn btn-primary dropdown-toggle" @click="open = !open"
-                @click.away="open = false" :aria-expanded="open"&gt;
-                Button
-            &lt;/button&gt;
-            &lt;ul class="dropdown-menu" x-show="open"
-                :class="{ 'show': open, 'hide': !open }"&gt;
-                &lt;li&gt;
-                    &lt;h6 class="dropdown-header"&gt;Header&lt;/h6&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;a href="#" class="dropdown-item"&gt;Dropdown link 1&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#" class="dropdown-item"&gt;Dropdown link 2&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#" class="dropdown-item"&gt;Dropdown link 3&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;
-                    &lt;hr class="dropdown-divider"&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;a class="dropdown-item disabled"&gt;Dropdown link 4&lt;/a&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-        &lt;/div&gt;
-                                            </code>
-                                        </pre>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div>,
+            <!-- Components Here -->
+
+            <!-- Code Example -->
+            <div class="card mt-5">
+                <div class="card-header d-flex justify-content-between mb-0">
+                    <span class="d-flex align-items-center bg-light px-2 rounded" style="font-size: 10px">HTML</span>
+                    <button class="btn btn-sm btn-secondary px-3" onclick="copyToClipboard('dropdown-code')">
+                        <i class="fas fa-copy pe-1"></i>
+                        Copy
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <pre id="dropdown-code" class="m-0 p-0">
+                        <code class="language-html" style="margin: 0px; padding: 0px;">
+    &lt;div class="dropdown" x-data="{ open: false }"&gt;
+        &lt;button class="btn btn-primary dropdown-toggle" @click="open = !open" @click.away="open = false" :aria-expanded="open"&gt;
+            Button
+        &lt;/button&gt;
+        &lt;ul class="dropdown-menu" x-show="open" :class="{ 'show': open, 'hide': !open }"&gt;
+            &lt;li&gt;
+                &lt;h6 class="dropdown-header"&gt;Header&lt;/h6&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href="#" class="dropdown-item"&gt;Dropdown link 1&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#" class="dropdown-item"&gt;Dropdown link 2&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#" class="dropdown-item"&gt;Dropdown link 3&lt;/a&gt;&lt;/li&gt;
+            &lt;hr class="dropdown-divider"&gt;
+            &lt;li&gt;&lt;a class="dropdown-item disabled"&gt;Dropdown link 4&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+                        </code>
+                    </pre>
+
+                </div>
+
+            </div>
+            <!-- Code Example -->
+
+
+            <footer>
+                <div class="text-center mt-5">
+                    <p class="text-muted mb-0">Made with <i class="fa-solid fa-heart text-danger"></i> by
+                        <a href="https://github.com/ogzcode" class="text-primary">ogzCode</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
     </div>
+
 
     <script>
         function toggleTheme() {
@@ -172,9 +285,8 @@
             var text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text);
         }
+
     </script>
 </body>
-
-</html>
 
 </html>
