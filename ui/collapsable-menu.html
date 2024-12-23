@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine-Halfmoon - Transition from Bootstrap to Alpine.js</title>
+    <link rel="stylesheet" href="../css/cores/halfmoon.cores.css">
+    <link rel="stylesheet" href="../css/halfmoon.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.7/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" id="highlight-theme"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/html.min.js"></script>
+
+    <style>
+        body {
+
+            --topbar-bg: var(--bs-lightgray-100);
+            --topbar-color: var(--bs-darkgray-900);
+            --topbar-border-color: var(--bs-lightgray-900);
+            --sidebar-bg: var(--bs-lightgray-100);
+        }
+
+        [data-bs-theme="dark"] body {
+            --topbar-bg: var(--bs-darkgray-900);
+            --topbar-color: var(--bs-lightgray-100);
+            --topbar-border-color: var(--bs-darkgray-100);
+            --sidebar-bg: var(--bs-darkgray-900);
+        }
+
+        .topbar {
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background-color: var(--topbar-bg);
+            border-bottom: 1px solid var(--topbar-border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+        }
+
+        .topbar .topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            height: 48px;
+        }
+
+        .brand-logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+        }
+
+        .main-content {
+            height: calc(100vh - 64px);
+            overflow: hidden;
+            margin-top: 64px;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            bottom: 0;
+            width: 25%;
+            background-color: var(--sidebar-bg);
+            overflow-y: hidden
+        }
+
+        [data-bs-theme="dark"] .sidebar-menu {
+            background-color: var(--bs-darkgray-900);
+        }
+
+        .sidebar-menu ul {
+            list-style-type: none;
+            height: 100%;
+            padding: var(--bs-spacer-4);
+            overflow-y: auto;
+            border-right: 1px solid var(--bs-lightgray-900);
+        }
+
+        .menu-item {
+            margin-bottom: var(--bs-spacer-4);
+        }
+
+        .item-header {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+        }
+
+        .item-link {
+            display: block;
+            padding: var(--bs-spacer-2);
+            color: var(--topbar-color);
+            text-decoration: none;
+            padding-left: var(--bs-spacer-3);
+            border-radius: var(--bs-border-radius);
+        }
+
+        .item-link:hover {
+            background-color: var(--bs-lightgray-200);
+            color: var(--bs-darkgray-900);
+        }
+
+        .item-link.active {
+            background-color: var(--bs-cyan-100);
+            color: var(--bs-cyan-900);
+        }
+
+        .content {
+            padding: var(--bs-spacer-4) calc(var(--bs-spacer-5) * 2);
+            overflow-y: auto;
+            height: 100%;
+            width: 75%;
+            margin-left: 25%;
+        }
+
+        .content-header {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+            border-bottom: 1px solid var(--topbar-border-color);
+            padding-bottom: var(--bs-spacer-3);
+        }
+
+        .content-text {
+            font-size: 1rem;
+            color: var(--topbar-color);
+            margin-top: var(--bs-spacer-5);
+        }
+    </style>
+
+    <style>
+        .collapsable-menu {
+            --collapsable-menu-hover-bg: var(--bs-light-100);
+
+            width: 100%;
+            max-width: 300px;
+        }
+
+        [data-bs-theme="dark"] .collapsable-menu {
+            --collapsable-menu-hover-bg: var(--bs-dark-100);
+        }
+
+        .collapsable-menu-btn {
+            text-align: left;
+            padding: var(--bs-spacer-2);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            transition: 0.3s;
+            background-color: transparent;
+        }
+
+        .collapsable-menu-btn:hover {
+            background-color: var(--collapsable-menu-hover-bg);
+        }
+
+        .collapsable-menu-btn::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            float: right;
+        }
+
+        .collapsable-menu-btn[aria-expanded="true"]::after {
+            content: '\f077';
+        }
+
+        .collapsable-menu-content {
+            display: block;
+        }
+
+        .collapsable-menu-content ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        .collapsable-menu-item {
+            cursor: pointer;
+            padding: var(--bs-spacer-1);
+            border-radius: var(--bs-border-radius);
+            padding-left: var(--bs-spacer-4);
+        }
+
+        .collapsable-menu-item:hover {
+            background-color: var(--collapsable-menu-hover-bg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="topbar-brand">
+            <img src="../image/alpine.svg" alt="Alpine.js" style="width: 30px; height: 30px; margin-right: 10px;">
+            <img src="../image/halfmoon.svg" alt="Halfmoon.css" style="width: 30px; height: 30px;">
+            <span class="brand-logo">Alpine-Halfmoon</span>
+        </div>
+        <div>
+            <a class="btn btn-secondary btn-lg me-2" href="https://github.com/ogzcode">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a class="btn btn-secondary btn-lg me-2" href="https://x.com/ogzCode">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="sidebar-menu">
+            <ul>
+                <li class="menu-item">
+                    <h6 class="item-header">
+                        <i class="fa-solid fa-flag-checkered me-2"></i>
+                        Introduction
+                    </h6>
+
+                    <a href="../index.html" class="item-link">Getting Started</a>
+                </li>
+
+                <li class="menu-item">
+                    <h6 class="item-header">
+                        <i class="fa-solid fa-shapes me-2"></i>
+                        Components
+                    </h6>
+
+                    <a href="./accordion.html" class="item-link">Accordion</a>
+                    <a href="./collapsable-menu.html" class="item-link active">Collapsable Menu</a>
+                    <a href="./dropdown.html" class="item-link">Dropdown</a>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1 class="content-header">
+                Collapsable Menu
+            </h1>
+            <p class="content-text">
+                Collapsable menu is a menu that can be expanded and collapsed. It is useful for displaying a list of
+                items that can be expanded to show more details.
+            </p>
+
+
+            <!-- Components Here -->
+            <div class="card">
+                <div class="card-body py-5 d-flex justify-content-center">
+                    <div x-data="{ isOpen: false }" class="collapsable-menu">
+                        <button type="button" class="collapsable-menu-btn" @click="isOpen = !isOpen"
+                            :aria-expanded="isOpen" aria-controls="collapse-example-1">
+                            E-Commerce
+                        </button>
+                        <div x-show="isOpen" class="collapsable-menu-content" x-transition id="collapse-example-1">
+                            <ul>
+                                <li class="collapsable-menu-item">
+                                    Products
+                                </li>
+                                <li class="collapsable-menu-item">
+                                    Orders
+                                </li>
+                                <li class="collapsable-menu-item">
+                                    Customers
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Components Here -->
+
+
+            <!-- Code Example -->
+            <div class="card mt-5">
+                <div class="card-header d-flex justify-content-between mb-0">
+                    <span class="d-flex align-items-center bg-light px-2 rounded" style="font-size: 10px">HTML</span>
+                    <button class="btn btn-sm btn-secondary px-3" onclick="copyToClipboard('collapsable-html')">
+                        <i class="fas fa-copy pe-1"></i>
+                        Copy
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <pre id="collapsable-html" class="m-0 p-0">
+                        <code class="language-html" style="margin: 0px; padding: 0px;">
+    &lt;div x-data="{ isOpen: false }" class="collapsable-menu"&gt;
+        &lt;button type="button" class="collapsable-menu-btn" @click="isOpen = !isOpen"
+        :aria-expanded="isOpen" aria-controls="collapse-example-1"&gt;
+        E-Commerce
+        &lt;/button&gt;
+        &lt;div x-show="isOpen" class="collapsable-menu-content" x-transition id="collapse-example-1"&gt;
+            &lt;ul&gt;
+                &lt;li class="collapsable-menu-item"&gt;
+                    Products
+                &lt;/li&gt;
+                &lt;li class="collapsable-menu-item"&gt;
+                    Orders
+                &lt;/li&gt;
+                &lt;li class="collapsable-menu-item"&gt;
+                    Customers
+                &lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+                        </code>
+                    </pre>
+                </div>
+
+            </div>
+
+            <div class="card mt-5">
+                <div class="card-header d-flex justify-content-between mb-0">
+                    <span class="d-flex align-items-center bg-light px-2 rounded" style="font-size: 10px">CSS</span>
+                    <button class="btn btn-sm btn-secondary px-3" onclick="copyToClipboard('collapsable-css')">
+                        <i class="fas fa-copy pe-1"></i>
+                        Copy
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <pre id="collapsable-css" class="m-0 p-0">
+                        <code class="language-css text-left" style="margin: 0px; padding: 0px;">
+    .collapsable-menu {
+        --collapsable-menu-hover-bg: var(--bs-light-100);
+        width: 100%;
+        max-width: 300px;
+    }
+    [data-bs-theme="dark"] .collapsable-menu {
+        --collapsable-menu-hover-bg: var(--bs-dark-100);
+    }
+    .collapsable-menu-btn {
+        text-align: left;
+        padding: var(--bs-spacer-2);
+        border-radius: 0.25rem;
+        cursor: pointer;
+        border: none;
+        width: 100%;
+        transition: 0.3s;
+        background-color: transparent;
+    }
+    .collapsable-menu-btn:hover {
+        background-color: var(--collapsable-menu-hover-bg);
+    }
+    .collapsable-menu-btn::after {
+        content: '\f078';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        float: right;
+    }
+    .collapsable-menu-btn[aria-expanded="true"]::after {
+        content: '\f077';
+    }
+    .collapsable-menu-content {
+        display: block;
+    }
+    .collapsable-menu-content ul {
+        padding: 0;
+        list-style: none;
+    }
+    .collapsable-menu-item {
+        cursor: pointer;
+        padding: var(--bs-spacer-1);
+        border-radius: var(--bs-border-radius);
+        padding-left: var(--bs-spacer-4);
+    }
+    .collapsable-menu-item:hover {
+        background-color: var(--collapsable-menu-hover-bg);
+    }
+                        </code>
+                    </pre>
+                </div>
+
+            </div>
+
+            <!-- Code Example -->
+
+            <footer>
+                <div class="text-center mt-5">
+                    <p class="text-muted mb-0">Made with <i class="fa-solid fa-heart text-danger"></i> by
+                        <a href="https://github.com/ogzcode" class="text-primary">ogzCode</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+    <script>
+        function toggleTheme() {
+            const html = document.querySelector('html');
+            const highlightThemeLink = document.getElementById('highlight-theme');
+            if (html.getAttribute('data-bs-theme') === 'light') {
+                html.setAttribute('data-bs-theme', 'dark');
+                highlightThemeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
+            } else {
+                html.setAttribute('data-bs-theme', 'light');
+                highlightThemeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css';
+            }
+        }
+        hljs.highlightAll();
+
+        function copyToClipboard(elementId) {
+            var text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+        }
+
+    </script>
+</body>
+
+</html>
