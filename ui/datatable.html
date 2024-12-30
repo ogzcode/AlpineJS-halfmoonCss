@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine-Halfmoon - Transition from Bootstrap to Alpine.js</title>
+    <link rel="stylesheet" href="../css/cores/halfmoon.cores.css">
+    <link rel="stylesheet" href="../css/halfmoon.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.7/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" id="highlight-theme"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/html.min.js"></script>
+
+    <style>
+        body {
+
+            --topbar-bg: var(--bs-lightgray-100);
+            --topbar-color: var(--bs-darkgray-900);
+            --topbar-border-color: var(--bs-lightgray-900);
+            --sidebar-bg: var(--bs-lightgray-100);
+        }
+
+        [data-bs-theme="dark"] body {
+            --topbar-bg: var(--bs-darkgray-900);
+            --topbar-color: var(--bs-lightgray-100);
+            --topbar-border-color: var(--bs-darkgray-100);
+            --sidebar-bg: var(--bs-darkgray-900);
+        }
+
+        .topbar {
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background-color: var(--topbar-bg);
+            border-bottom: 1px solid var(--topbar-border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+        }
+
+        .topbar .topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            height: 48px;
+        }
+
+        .brand-logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+        }
+
+        .main-content {
+            height: calc(100vh - 64px);
+            overflow: hidden;
+            margin-top: 64px;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            bottom: 0;
+            width: 25%;
+            background-color: var(--sidebar-bg);
+            overflow-y: hidden
+        }
+
+        [data-bs-theme="dark"] .sidebar-menu {
+            background-color: var(--bs-darkgray-900);
+        }
+
+        .sidebar-menu ul {
+            list-style-type: none;
+            height: 100%;
+            padding: var(--bs-spacer-4);
+            overflow-y: auto;
+            border-right: 1px solid var(--bs-lightgray-900);
+        }
+
+        .menu-item {
+            margin-bottom: var(--bs-spacer-4);
+        }
+
+        .item-header {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+        }
+
+        .item-link {
+            display: block;
+            padding: var(--bs-spacer-2);
+            color: var(--topbar-color);
+            text-decoration: none;
+            padding-left: var(--bs-spacer-3);
+            border-radius: var(--bs-border-radius);
+        }
+
+        .item-link:hover {
+            background-color: var(--bs-lightgray-200);
+            color: var(--bs-darkgray-900);
+        }
+
+        .item-link.active {
+            background-color: var(--bs-cyan-100);
+            color: var(--bs-cyan-900);
+        }
+
+        .content {
+            padding: var(--bs-spacer-4) calc(var(--bs-spacer-5) * 2);
+            overflow-y: auto;
+            height: 100%;
+            width: 75%;
+            margin-left: 25%;
+        }
+
+        .content-header {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+            border-bottom: 1px solid var(--topbar-border-color);
+            padding-bottom: var(--bs-spacer-3);
+        }
+
+        .content-text {
+            font-size: 1rem;
+            color: var(--topbar-color);
+            margin-top: var(--bs-spacer-5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="topbar-brand">
+            <img src="../image/alpine.svg" alt="Alpine.js" style="width: 30px; height: 30px; margin-right: 10px;">
+            <img src="../image/halfmoon.svg" alt="Halfmoon.css" style="width: 30px; height: 30px;">
+            <span class="brand-logo">Alpine-Halfmoon</span>
+        </div>
+        <div>
+            <a class="btn btn-secondary btn-lg me-2" href="https://github.com/ogzcode">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a class="btn btn-secondary btn-lg me-2" href="https://x.com/ogzCode">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="sidebar-menu">
+            <ul>
+                <li class="menu-item">
+                    <h6 class="item-header">
+                        <i class="fa-solid fa-flag-checkered me-2"></i>
+                        Introduction
+                    </h6>
+
+                    <a href="../index.html" class="item-link">Getting Started</a>
+                </li>
+
+                <li class="menu-item">
+                    <h6 class="item-header">
+                        <i class="fa-solid fa-shapes me-2"></i>
+                        Components
+                    </h6>
+
+                    <a href="./accordion.html" class="item-link">Accordion</a>
+                    <a href="./collapsable-menu.html" class="item-link">Collapsable Menu</a>
+                    <a href="./datatable.html" class="item-link active">Data Table</a>
+                    <a href="./dropdown.html" class="item-link">Dropdown</a>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1 class="content-header">Data Table</h1>
+            <p class="content-text">
+                Data tables display sets of data across rows and columns. They organize information in a way that’s easy
+                to scan so that users can look for patterns and insights.
+            </p>
+
+            <!-- Components Here -->
+            <div class="card">
+                <div class="card-body py-5">
+                    <div x-data="table">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <input type="text" class="form-control" placeholder="Search..." x-model="search">
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <template x-for="column in columns" :key="column.key">
+                                        <th scope="col" :class="sortColumn === column.key ? 'active' : ''"
+                                            @click="sort(column.key)">
+                                            <span x-text="column.name"></span>
+                                            <span x-show="sortColumn === column.key"
+                                                :class="sortDirection === 'asc' ? 'fa fa-arrow-up' : 'fa fa-arrow-down'"></span>
+                                        </th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="row in filteredAndSortedData()" :key="row.id">
+                                    <tr>
+                                        <td x-text="row.id"></td>
+                                        <td x-text="row.firstName"></td>
+                                        <td x-text="row.lastName"></td>
+                                        <td x-text="row.age"></td>
+                                        <td x-text="row.birthDate"></td>
+                                        <td x-text="row.email"></td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                <select class="form-select" x-model="limit" @change="changeLimit($event.target.value)">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                            <span>Page <span x-text="page"></span> of <span x-text="totalPages()"></span></span>
+                            <div>
+                                <button class="btn btn-secondary" :disabled="page === 1"
+                                    @click="page--">Previous</button>
+                                <button class="btn btn-secondary" :disabled="page === totalPages()"
+                                    @click="page++">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Components Here -->
+
+            <!-- Code Example -->
+
+            <div class="card mt-5">
+                <div class="card-header d-flex justify-content-between mb-0">
+                    <span class="d-flex align-items-center bg-light px-2 rounded" style="font-size: 10px">HTML</span>
+                    <button class="btn btn-sm btn-secondary px-3" onclick="copyToClipboard('datatable-html')">
+                        <i class="fas fa-copy pe-1"></i>
+                        Copy
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <pre id="datatable-html" class="m-0 p-0">
+                        <code class="language-html" style="margin: 0px; padding: 0px;">
+    &lt;div x-data=&quot;table&quot;&gt;
+        &lt;div class=&quot;d-flex justify-content-between mb-3&quot;&gt;
+            &lt;div&gt;
+                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;Search...&quot; x-model=&quot;search&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;table class=&quot;table&quot;&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;
+                    &lt;template x-for=&quot;column in columns&quot; :key=&quot;column.key&quot;&gt;
+                        &lt;th scope=&quot;col&quot; :class=&quot;sortColumn === column.key ? &#x27;active&#x27; : &#x27;&#x27;&quot;
+                            @click=&quot;sort(column.key)&quot;&gt;
+                            &lt;span x-text=&quot;column.name&quot;&gt;&lt;/span&gt;
+                            &lt;span x-show=&quot;sortColumn === column.key&quot;
+                                :class=&quot;sortDirection === &#x27;asc&#x27; ? &#x27;fa fa-arrow-up&#x27; : &#x27;fa fa-arrow-down&#x27;&quot;&gt;&lt;/span&gt;
+                        &lt;/th&gt;
+                    &lt;/template&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                &lt;template x-for=&quot;row in filteredAndSortedData()&quot; :key=&quot;row.id&quot;&gt;
+                    &lt;tr&gt;
+                        &lt;td x-text=&quot;row.id&quot;&gt;&lt;/td&gt;
+                        &lt;td x-text=&quot;row.firstName&quot;&gt;&lt;/td&gt;
+                        &lt;td x-text=&quot;row.lastName&quot;&gt;&lt;/td&gt;
+                        &lt;td x-text=&quot;row.age&quot;&gt;&lt;/td&gt;
+                        &lt;td x-text=&quot;row.birthDate&quot;&gt;&lt;/td&gt;
+                        &lt;td x-text=&quot;row.email&quot;&gt;&lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/template&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+        &lt;div class=&quot;d-flex justify-content-between align-items-center mt-3&quot;&gt;
+            &lt;div&gt;
+                &lt;select class=&quot;form-select&quot; x-model=&quot;limit&quot; @change=&quot;changeLimit($event.target.value)&quot;&gt;
+                    &lt;option value=&quot;5&quot;&gt;5&lt;/option&gt;
+                    &lt;option value=&quot;10&quot;&gt;10&lt;/option&gt;
+                    &lt;option value=&quot;20&quot;&gt;20&lt;/option&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;span&gt;Page &lt;span x-text=&quot;page&quot;&gt;&lt;/span&gt; of &lt;span x-text=&quot;totalPages()&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;div&gt;
+                &lt;button class=&quot;btn btn-secondary&quot; :disabled=&quot;page === 1&quot;
+                    @click=&quot;page--&quot;&gt;Previous&lt;/button&gt;
+                &lt;button class=&quot;btn btn-secondary&quot; :disabled=&quot;page === totalPages()&quot;
+                    @click=&quot;page++&quot;&gt;Next&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+                        </code>
+                    </pre>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <div class="card-header d-flex justify-content-between mb-0">
+                    <span class="d-flex align-items-center bg-light px-2 rounded" style="font-size: 10px">JS</span>
+                    <button class="btn btn-sm btn-secondary px-3" onclick="copyToClipboard('datatable-js')">
+                        <i class="fas fa-copy pe-1"></i>
+                        Copy
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <pre id="datatable-js" class="m-0 p-0">
+                        <code class="language-html" style="margin: 0px; padding: 0px;">
+    &lt;script&gt;
+        document.addEventListener(&quot;alpine:init&quot;, () =&gt; {
+            Alpine.data(&quot;table&quot;, () =&gt; ({
+                tableData: [],
+                columns: [
+                    { name: &quot;ID&quot;, key: &quot;id&quot; },
+                    { name: &quot;Firstname&quot;, key: &quot;firstName&quot; },
+                    { name: &quot;Lastname&quot;, key: &quot;lastName&quot; },
+                    { name: &quot;Age&quot;, key: &quot;age&quot; },
+                    { name: &quot;Start date&quot;, key: &quot;birthDate&quot; },
+                    { name: &quot;Email&quot;, key: &quot;email&quot; }
+                ],
+                search: &quot;&quot;,
+                sortColumn: &quot;id&quot;,
+                sortDirection: &quot;asc&quot;,
+                page: 1,
+                limit: 5, // Number of rows per page
+
+                init() {
+                    this.fetchData();
+                },
+
+                fetchData() {
+                    fetch(&#x27;https://dummyjson.com/users&#x27;)
+                        .then(res =&gt; res.json())
+                        .then(data =&gt; {
+                            this.tableData = data.users;
+                        });
+                },
+
+                sort(column) {
+                    if (this.sortColumn === column) {
+                        this.sortDirection = this.sortDirection === &quot;asc&quot; ? &quot;desc&quot; : &quot;asc&quot;;
+                    } else {
+                        this.sortColumn = column;
+                        this.sortDirection = &quot;asc&quot;;
+                    }
+                },
+
+                changeLimit(limit) {
+                    this.limit = limit;
+                    this.page = 1;
+                },
+
+                filteredAndSortedData() {
+                    let data = this.tableData;
+
+                    // Search Filter
+                    if (this.search) {
+                        data = data.filter(row =&gt;
+                            Object.values(row).some(value =&gt;
+                                String(value).toLowerCase().includes(this.search.toLowerCase())
+                            )
+                        );
+                    }
+
+                    // Sorting
+                    data.sort((a, b) =&gt; {
+                        let valA = a[this.sortColumn];
+                        let valB = b[this.sortColumn];
+                        if (typeof valA === &quot;string&quot;) valA = valA.toLowerCase();
+                        if (typeof valB === &quot;string&quot;) valB = valB.toLowerCase();
+
+                        if (this.sortDirection === &quot;asc&quot;) {
+                            return valA &gt; valB ? 1 : -1;
+                        } else {
+                            return valA &lt; valB ? 1 : -1;
+                        }
+                    });
+
+                    // Pagination
+                    const start = (this.page - 1) * this.limit;
+                    const end = start + this.limit;
+                    return data.slice(start, end);
+                },
+
+                totalPages() {
+                    return Math.ceil(this.tableData.length / this.limit);
+                },
+            }));
+        });
+    &lt;/script&gt;
+
+                        </code>
+                    </pre>
+                </div>
+            </div>
+
+            <!-- Code Example -->
+
+            <footer>
+                <div class="text-center mt-5">
+                    <p class="text-muted mb-0">Made with <i class="fa-solid fa-heart text-danger"></i> by
+                        <a href="https://github.com/ogzcode" class="text-primary">ogzCode</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+    <script>
+        function toggleTheme() {
+            const html = document.querySelector('html');
+            const highlightThemeLink = document.getElementById('highlight-theme');
+            if (html.getAttribute('data-bs-theme') === 'light') {
+                html.setAttribute('data-bs-theme', 'dark');
+                highlightThemeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
+            } else {
+                html.setAttribute('data-bs-theme', 'light');
+                highlightThemeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css';
+            }
+        }
+        hljs.highlightAll();
+
+        function copyToClipboard(elementId) {
+            var text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+        }
+
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("table", () => ({
+                tableData: [],
+                columns: [
+                    { name: "ID", key: "id" },
+                    { name: "Firstname", key: "firstName" },
+                    { name: "Lastname", key: "lastName" },
+                    { name: "Age", key: "age" },
+                    { name: "Start date", key: "birthDate" },
+                    { name: "Email", key: "email" }
+                ],
+                search: "",
+                sortColumn: "id",
+                sortDirection: "asc",
+                page: 1,
+                limit: 5, // Number of rows per page
+
+                init() {
+                    this.fetchData();
+                },
+
+                fetchData() {
+                    fetch('https://dummyjson.com/users')
+                        .then(res => res.json())
+                        .then(data => {
+                            this.tableData = data.users;
+                        });
+                },
+
+                sort(column) {
+                    if (this.sortColumn === column) {
+                        this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
+                    } else {
+                        this.sortColumn = column;
+                        this.sortDirection = "asc";
+                    }
+                },
+
+                changeLimit(limit) {
+                    this.limit = limit;
+                    this.page = 1;
+                },
+
+                filteredAndSortedData() {
+                    let data = this.tableData;
+
+                    // Search Filter
+                    if (this.search) {
+                        data = data.filter(row =>
+                            Object.values(row).some(value =>
+                                String(value).toLowerCase().includes(this.search.toLowerCase())
+                            )
+                        );
+                    }
+
+                    // Sorting
+                    data.sort((a, b) => {
+                        let valA = a[this.sortColumn];
+                        let valB = b[this.sortColumn];
+                        if (typeof valA === "string") valA = valA.toLowerCase();
+                        if (typeof valB === "string") valB = valB.toLowerCase();
+
+                        if (this.sortDirection === "asc") {
+                            return valA > valB ? 1 : -1;
+                        } else {
+                            return valA < valB ? 1 : -1;
+                        }
+                    });
+
+                    // Pagination
+                    const start = (this.page - 1) * this.limit;
+                    const end = start + this.limit;
+                    return data.slice(start, end);
+                },
+
+                totalPages() {
+                    return Math.ceil(this.tableData.length / this.limit);
+                },
+            }));
+        });
+
+
+    </script>
+</body>
+
+</html>
