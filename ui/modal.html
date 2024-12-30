@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine-Halfmoon - Transition from Bootstrap to Alpine.js</title>
+    <link rel="stylesheet" href="../css/cores/halfmoon.cores.css">
+    <link rel="stylesheet" href="../css/halfmoon.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.7/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" id="highlight-theme"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <style>
+        body {
+
+            --topbar-bg: var(--bs-lightgray-100);
+            --topbar-color: var(--bs-darkgray-900);
+            --topbar-border-color: var(--bs-lightgray-900);
+            --sidebar-bg: var(--bs-lightgray-100);
+        }
+
+        [data-bs-theme="dark"] body {
+            --topbar-bg: var(--bs-darkgray-900);
+            --topbar-color: var(--bs-lightgray-100);
+            --topbar-border-color: var(--bs-darkgray-100);
+            --sidebar-bg: var(--bs-darkgray-900);
+        }
+
+        .topbar {
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background-color: var(--topbar-bg);
+            border-bottom: 1px solid var(--topbar-border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+        }
+
+        .topbar .topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            height: 48px;
+        }
+
+        .brand-logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+        }
+
+        .main-content {
+            height: calc(100vh - 64px);
+            overflow: hidden;
+            margin-top: 64px;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            bottom: 0;
+            width: 25%;
+            background-color: var(--sidebar-bg);
+            overflow-y: hidden
+        }
+
+        [data-bs-theme="dark"] .sidebar-menu {
+            background-color: var(--bs-darkgray-900);
+        }
+
+        .sidebar-menu ul {
+            list-style-type: none;
+            height: 100%;
+            padding: var(--bs-spacer-4);
+            overflow-y: auto;
+            border-right: 1px solid var(--bs-lightgray-900);
+        }
+
+        .menu-item {
+            margin-bottom: var(--bs-spacer-4);
+        }
+
+        .item-header {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+        }
+
+        .item-link {
+            display: block;
+            padding: var(--bs-spacer-2);
+            color: var(--topbar-color);
+            text-decoration: none;
+            padding-left: var(--bs-spacer-3);
+            border-radius: var(--bs-border-radius);
+        }
+
+        .item-link:hover {
+            background-color: var(--bs-lightgray-200);
+            color: var(--bs-darkgray-900);
+        }
+
+        .item-link.active {
+            background-color: var(--bs-cyan-100);
+            color: var(--bs-cyan-900);
+        }
+
+        .content {
+            padding: var(--bs-spacer-4) calc(var(--bs-spacer-5) * 2);
+            overflow-y: auto;
+            height: 100%;
+            width: 75%;
+            margin-left: 25%;
+        }
+
+        .content-header {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--topbar-color);
+            border-bottom: 1px solid var(--topbar-border-color);
+            padding-bottom: var(--bs-spacer-3);
+        }
+
+        .content-text {
+            font-size: 1rem;
+            color: var(--topbar-color);
+            margin-top: var(--bs-spacer-5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="topbar-brand">
+            <img src="../image/alpine.svg" alt="Alpine.js" style="width: 30px; height: 30px; margin-right: 10px;">
+            <img src="../image/halfmoon.svg" alt="Halfmoon.css" style="width: 30px; height: 30px;">
+            <span class="brand-logo">Alpine-Halfmoon</span>
+        </div>
+        <div>
+            <a class="btn btn-secondary btn-lg me-2" href="https://github.com/ogzcode">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a class="btn btn-secondary btn-lg me-2" href="https://x.com/ogzCode">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="sidebar-menu">
+            <ul>
+                <li class="menu-item">
+                    <h6 class="item-header">
+                        <i class="fa-solid fa-flag-checkered me-2"></i>
+                        Introduction
+                    </h6>
+
+                    <a href="../index.html" class="item-link">Getting Started</a>
+                </li>
+
+                <li class="menu-item">
+                    <h6 class="item-header">
+                        <i class="fa-solid fa-shapes me-2"></i>
+                        Components
+                    </h6>
+
+                    <a href="./accordion.html" class="item-link">Accordion</a>
+                    <a href="./collapsable-menu.html" class="item-link">Collapsable Menu</a>
+                    <a href="./datatable.html" class="item-link">Data Table</a>
+                    <a href="./dropdown.html" class="item-link">Dropdown</a>
+                    <a href="./modal.html" class="item-link active">Modal</a>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1 class="content-header">Modal</h1>
+            <p class="content-text">
+                Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart
+                defaults.
+            </p>
+
+            <!-- Components Here -->
+            <div class="card">
+                <div class="card-body py-5 d-flex justify-content-center">
+                    <div x-data="{ open: false }" class="relative">
+                        <!-- Modal toggles -->
+                        <button type="button" class="btn btn-primary" @click="open = true">
+                            Launch modal
+                        </button>
+
+                        <!-- Modal -->
+                        <div x-show="open" class="modal" tabindex="-1" role="dialog" :class="open && 'show d-block'">
+                            <div class="modal-dialog modal-dialog-centered" style="z-index: 1060;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="modal-title">Modal title</h1>
+                                        <button type="button" class="btn-close" @click="open = false"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        This is the modal body which can contain all types of custom content, such as
+                                        forms, tooltips, popovers, grids, etc.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            @click="open = false">Close</button>
+                                        <button type="button" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-backdrop fade show" @click="open = false"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Components Here -->
+
+            <!-- Code Example -->
+            <div class="card mt-5">
+                <div class="card-header d-flex justify-content-between mb-0">
+                    <span class="d-flex align-items-center bg-light px-2 rounded" style="font-size: 10px">HTML</span>
+                    <button class="btn btn-sm btn-secondary px-3" onclick="copyToClipboard('modal-code')">
+                        <i class="fas fa-copy pe-1"></i>
+                        Copy
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <pre id="modal-code" class="m-0 p-0">
+                        <code class="language-html" style="margin: 0px; padding: 0px;">
+    &lt;div x-data="{ open: false }" class="relative"&gt;
+        &lt;!-- Modal toggles --&gt;
+        &lt;button type="button" class="btn btn-primary" @click="open = true"&gt;
+            Launch modal
+        &lt;/button&gt;
+        &lt;!-- Modal --&gt;
+        &lt;div x-show="open" class="modal" tabindex="-1" role="dialog" :class="open &amp;&amp; 'show d-block'"&gt;
+            &lt;div class="modal-dialog modal-dialog-centered" style="z-index: 1060;"&gt;
+                &lt;div class="modal-content"&gt;
+                    &lt;div class="modal-header"&gt;
+                        &lt;h1 class="modal-title fs-5" id="modal-title"&gt;Modal title&lt;/h1&gt;
+                        &lt;button type="button" class="btn-close" @click="open = false" aria-label="Close"&gt;&lt;/button&gt;
+                    &lt;/div&gt;
+                    &lt;div class="modal-body"&gt;
+                        This is the modal body which can contain all types of custom content, such as
+                        forms, tooltips, popovers, grids, etc.
+                    &lt;/div&gt;
+                    &lt;div class="modal-footer"&gt;
+                        &lt;button type="button" class="btn btn-secondary" @click="open = false"&gt;Close&lt;/button&gt;
+                        &lt;button type="button" class="btn btn-primary"&gt;Save&lt;/button&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="modal-backdrop fade show" @click="open = false"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+                        </code>
+                    </pre>
+
+                </div>
+
+            </div>
+            <!-- Code Example -->
+
+
+            <footer>
+                <div class="text-center mt-5">
+                    <p class="text-muted mb-0">Made with <i class="fa-solid fa-heart text-danger"></i> by
+                        <a href="https://github.com/ogzcode" class="text-primary">ogzCode</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+    <script>
+        function toggleTheme() {
+            const html = document.querySelector('html');
+            const highlightThemeLink = document.getElementById('highlight-theme');
+            if (html.getAttribute('data-bs-theme') === 'light') {
+                html.setAttribute('data-bs-theme', 'dark');
+                highlightThemeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
+            } else {
+                html.setAttribute('data-bs-theme', 'light');
+                highlightThemeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css';
+            }
+        }
+        hljs.highlightAll();
+
+        function copyToClipboard(elementId) {
+            var text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+        }
+
+    </script>
+</body>
+
+</html>
